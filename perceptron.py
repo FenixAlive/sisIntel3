@@ -30,13 +30,12 @@ ntabla = np.array(tabla)
 print("Tabla de Verdad:")
 print(ntabla)
 
-
-fila, col = ntabla.shape
-
 #dibujar linea
 xline=np.linspace(-0.5,1.5,20)
 A, B = np.meshgrid(xline, xline)
 
+#inicializacion datos de entrenamiento
+fila, col = ntabla.shape
 
 #quito el resultado y en la ultima fila pongo el bias
 xtabla = np.hstack((ntabla[:,:-1], np.ones((fila,1),'int')))
