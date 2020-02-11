@@ -77,13 +77,24 @@ while cont != fila:
 
 print("Pesos Finales:")
 print(w)
-#grafico resultado final
-plt.clf
+
+#pruebas con ruido
+prueba = np.hstack((xtabla[:,0:-1]+(np.random.rand(8,3)-0.5)/3, np.ones((fila,1),'int')))
+aci=0
+como_es = ""
 for j in range(fila):
-    if ntabla[j,3] == 1:
-        ax.scatter3D(ntabla[j,0], ntabla[j,1], ntabla[j,2], c='r', marker='<')
+    res = sign(np.sum(w*prueba[j,:]))
+    e = ntabla[j,-1] - res
+    if e == 0:
+        aci = aci + 1
+        como_es = "Correcto"
     else:
-        ax.scatter3D(ntabla[j,0], ntabla[j,1], ntabla[j,2], c='b', marker='o')
-C = (-w[0]*A-w[1]*B-w[3])/w[2]
-ax.plot_wireframe(A, B, C, color='grey')
+        como_es = "Erroneo"
+    print("Valores: A: {0:0.4f}, B: {1:0.4f}, C: {2:0.4f} = {3} es {4}".format(prueba[j,0], prueba[j,1], prueba[j,2], res, como_es))
+
+    if ntabla[j,3] == 1:
+        ax.scatter3D(prueba[j,0], prueba[j,1], prueba[j,2], c='y', marker='<')
+    else:
+        ax.scatter3D(prueba[j,0], prueba[j,1], prueba[j,2], c='g', marker='o')
+print("Porcentaje correcto = {} %".format(aci*100/fila))
 plt.show()
